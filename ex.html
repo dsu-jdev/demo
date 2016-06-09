@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<title></title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+</head>
+<body>
+	<div ng-controller="ctrl">
+		<p>{{x.y}}</p>
+		<p>max: {{x.max}}</p>
+		<p>min: {{x.min}}</p>
+		<ul ng-repeat="f in x.frac">
+			<li>{{f}}</li>
+		</ul>
+	</div>
+	<script>
+
+		function increase(x) {
+			x.y = Math.floor( (Math.random() * 10000) + 100);
+			x.frac[x.y]++;
+			x.max = (x.max > x.y) ? x.max : x.y;
+			x.min = (x.min < x.y) ? x.min : x.y;
+		}
+
+		var app = angular.module("app", []);
+
+		app.controller("ctrl", function($scope, $interval) {
+			$scope.x = {
+				frac: []
+			};
+			for (var i = 0; i < 10000; i++) {
+				$scope.x.frac[i] = 0;
+			}
+			
+			// $scope.increase = function() {
+			// 	debugger;
+			// 	$scope.x = Math.random();
+			// };
+
+			$interval(function() {increase($scope.x)}, 1000);
+		});
+
+	</script>
+</body>
+</html>
